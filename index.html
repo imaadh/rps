@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Inspect page. Check console.
+    <script>
+        function getComputerChoice() {
+           let randomNumber = Math.floor(Math.random() * 3); 
+           if (randomNumber == 0) {
+              return "rock";  
+           } else if (randomNumber == 1) {
+              return "paper";
+           } else if (randomNumber == 2) {
+              return "scissors";
+           }
+        }
+
+        function playerChoice() {
+            let input = prompt("Enter Rock, Paper, or Scissors");
+            input = input.toLowerCase();
+            return input;
+        }
+
+        function playRound() {
+            let player = playerChoice();
+            let computer = getComputerChoice();
+            if (player == "rock" && computer == "scissors") {
+                return "Rock beats scissors, player wins!";
+            } else if (player == "rock" && computer == "rock") {
+                return "Rock versus Rock. Tie game";
+            } else if (player == "rock" && computer == "paper") {
+                return "Paper beats rock, you lose!";
+            } else if (player == "scissors" && computer == "paper") {
+                return "You win! Scissors beats paper.";
+            } else if (player == "scissors" && computer == "scissors") {
+                return "Scissors versus scissors. Tie game";
+            } else if (player == "scissors" && computer == "rock") {
+                return "Rock smashes scissors. You lose!";
+            } else if (player == "paper" && computer == "rock") {
+                return "Paper beats rock. You win.";
+            } else if (player == "paper" && computer == "paper") {
+                return "Paper versus paper. Tie game.";
+            } else if (player == "paper" && computer == "scissors") {
+                return "Scissors cuts paper. You lose.";
+            }
+        }
+
+        function game() {
+            for (let i = 0; i < 5; i++) {
+                console.log(playRound());
+            }
+        }
+
+        game()
+
+    </script>
+</body>
+</html>
