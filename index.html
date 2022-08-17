@@ -4,10 +4,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css"></link>
 </head>
 <body>
-    Inspect page. Check console.
+<div id="bg">
+    <div id="title">
+        <h1>Rock. Paper. Scissors.</h1>
+    </div>
+    <div id="btncontainer">
+        <button id="rock" class="selection">Rock</button>
+        <button id="paper" class="selection">Paper</button>
+        <button id="scissors" class="selection">Scissors</button>
+    </div>
+    <br></br>
+    <div id="container">
+
+    </div>
+    <div id="results">
+        <div id="tally">
+            <div id="you">
+                <p id=>Player: </p>
+                <p id="playertally">0</p>
+            </div>
+            <div id="comp">
+                <p>Computer: </p>
+                <p id="computertally">0</p>
+            </div>
+        </div>
+    </div>
+    <div id="winner">
+
+    </div>
+    <br></br>
+    <div id="rst">
+
+    </div>
+</div>
+
     <script>
         function getComputerChoice() {
            let randomNumber = Math.floor(Math.random() * 3); 
@@ -26,37 +60,156 @@
             return input;
         }
 
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return;
+            this.classList.remove('clicked');
+        }
+
         function playRound() {
-            let player = playerChoice();
-            let computer = getComputerChoice();
+            //let player = playerChoice();
+            computer = getComputerChoice();
             if (player == "rock" && computer == "scissors") {
+                playerWon = true;
+                computerWon = false;
                 return "Rock beats scissors, player wins!";
             } else if (player == "rock" && computer == "rock") {
+                playerWon = false;
+                computerWon = false;
                 return "Rock versus Rock. Tie game";
             } else if (player == "rock" && computer == "paper") {
+                playerWon = false;
+                computerWon = true;
                 return "Paper beats rock, you lose!";
             } else if (player == "scissors" && computer == "paper") {
+                playerWon = true;
+                computerWon = false;
                 return "You win! Scissors beats paper.";
             } else if (player == "scissors" && computer == "scissors") {
+                playerWon = false;
+                computerWon = false;
                 return "Scissors versus scissors. Tie game";
             } else if (player == "scissors" && computer == "rock") {
+                playerWon = false;
+                computerWon = true;
                 return "Rock smashes scissors. You lose!";
             } else if (player == "paper" && computer == "rock") {
+                playerWon = true;
+                computerWon = false;
                 return "Paper beats rock. You win.";
             } else if (player == "paper" && computer == "paper") {
+                playerWon = false;
+                computerWon = false;
                 return "Paper versus paper. Tie game.";
             } else if (player == "paper" && computer == "scissors") {
+                playerWon = false;
+                computerWon = true;
                 return "Scissors cuts paper. You lose.";
             }
+            
         }
 
-        function game() {
-            for (let i = 0; i < 5; i++) {
+        let player;
+        let computer;
+        let playerWon = false;
+        let computerWon = false;
+        let playerWinsTotal = 0;
+        let computerWinsTotal = 0;
+
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                button.classList.add('clicked');
+                const newbtns = document.querySelectorAll('.selection');
+                newbtns.forEach(selection => selection.addEventListener('transitionend', removeTransition));
+
+                const container = document.querySelector('#container'); //References div with ID container
+                container.textContent = 'blank';
+                
+                player = button.id; //provides player choice to playRound function
+
+                container.textContent = playRound();
+                
+                if (playerWon == true && computerWon == false) {
+                    playerWinsTotal++;
+                    const playertally = document.querySelector('#playertally');
+                    playertally.textContent = playerWinsTotal;
+                    console.log(playerWon);
+                    console.log(playerWinsTotal);
+                    
+                } else if (playerWon == false && computerWon == true) {
+                    computerWinsTotal++;
+                    const computertally = document.querySelector('#computertally');
+                    computertally.textContent = computerWinsTotal;
+                }
+
+                playerWon = false;
+                //console.log(button.id);
+                //console.log(player);
                 console.log(playRound());
-            }
-        }
+                computer = '';
+                player = '';
+                console.log('finish');
 
-        game()
+                if (playerWinsTotal == 5) {
+                    const winner = document.querySelector("#winner")
+                    winner.textContent = "You won! Amazing! "
+                    const resetBtn = document.createElement('button');
+                    resetBtn.textContent = "Reset";
+                    const rstbtn = document.querySelector("#rst");
+                    rstbtn.appendChild(resetBtn);
+                    console.log('Player wins!!!!');
+                    document.getElementById("rock").disabled = true;
+                    document.getElementById("paper").disabled = true;
+                    document.getElementById("scissors").disabled = true;
+
+                    resetBtn.addEventListener('click', () => {
+                        playerWinsTotal = 0;
+                        computerWinsTotal = 0;
+                        document.getElementById("rock").disabled = false;
+                        document.getElementById("paper").disabled = false;
+                        document.getElementById("scissors").disabled = false;
+                        playertally.textContent = playerWinsTotal;
+                        computertally.textContent = computerWinsTotal;
+                        winner.textContent = '';
+
+                    });
+
+                } else if (computerWinsTotal == 5) {
+                    const winner = document.querySelector("#winner")
+                    winner.textContent = "Computer wins! Try again? "
+                    const resetBtn = document.createElement('button');
+                    resetBtn.textContent = "Reset";
+                    const rstbtn = document.querySelector("#rst");
+                    rstbtn.appendChild(resetBtn);
+                    console.log('Computer wins!!!!');
+                    document.getElementById("rock").disabled = true;
+                    document.getElementById("paper").disabled = true;
+                    document.getElementById("scissors").disabled = true;
+
+                    resetBtn.addEventListener('click', () => {
+                        computerWinsTotal = 0;
+                        playerWinsTotal = 0;
+                        document.getElementById("rock").disabled = false;
+                        document.getElementById("paper").disabled = false;
+                        document.getElementById("scissors").disabled = false;
+                        playertally.textContent = playerWinsTotal;
+                        computertally.textContent = computerWinsTotal;
+                        winner.textContent = '';
+                        rst.textContent = '';
+                        container.textContent = '';
+                    });
+
+                }
+
+                
+
+            });
+        });
+
+        
+
+        
+        
 
     </script>
 </body>
