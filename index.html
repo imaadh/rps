@@ -18,6 +18,9 @@
         <button id="scissors" class="selection">Scissors</button>
     </div>
     <br></br>
+    <div id="comppick">
+
+    </div>
     <div id="container">
 
     </div>
@@ -123,12 +126,16 @@
                 newbtns.forEach(selection => selection.addEventListener('transitionend', removeTransition));
 
                 const container = document.querySelector('#container'); //References div with ID container
-                container.textContent = 'blank';
+                //container.textContent = 'blank';
                 
                 player = button.id; //provides player choice to playRound function
 
                 container.textContent = playRound();
                 
+                const computerselection = document.querySelector('#comppick');
+                computerselection.textContent = "Computer picked " + computer;
+                
+
                 if (playerWon == true && computerWon == false) {
                     playerWinsTotal++;
                     const playertally = document.querySelector('#playertally');
@@ -170,7 +177,11 @@
                         document.getElementById("scissors").disabled = false;
                         playertally.textContent = playerWinsTotal;
                         computertally.textContent = computerWinsTotal;
+                        comppick.textContent = '';
                         winner.textContent = '';
+                        container.textContent = '';
+                        rst.textContent = '';
+
 
                     });
 
@@ -196,6 +207,7 @@
                         computertally.textContent = computerWinsTotal;
                         winner.textContent = '';
                         rst.textContent = '';
+                        comppick.textContent = '';
                         container.textContent = '';
                     });
 
