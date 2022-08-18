@@ -25,10 +25,11 @@ body {
 }
 
 #btncontainer {
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 150px;
+    margin-right: 150px;
     display: flex;
     gap: 10px;
+    
 }
 
 #btncontainer button {
